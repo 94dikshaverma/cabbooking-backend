@@ -25,6 +25,54 @@
 
 [Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
 
+## Database Setup
+
+1. Create a PostgreSQL database named `transport_system`
+2. Update the `.env` file with your database credentials
+3. Run migrations: `npm run migration:run`
+4. Seed the database: `npm run seed`
+
+## Default Users
+
+After seeding, you can login with these default accounts:
+
+- **SuperAdmin**: superadmin@transport.com / SuperAdmin@123
+- **Admin**: admin@transport.com / Admin@123
+- **Manager**: manager@transport.com / Manager@123
+- **Accountant**: accountant@transport.com / Accountant@123
+- **Driver**: driver@transport.com / Driver@123
+- **Passenger**: passenger@transport.com / Passenger@123
+
+## API Endpoints
+
+### Authentication
+- `POST /auth/login` - Login with email and password
+- `POST /auth/register` - Public registration (passenger only)
+- `POST /auth/register-user` - Admin/SuperAdmin create users
+- `GET /auth/profile` - Get current user profile
+- `GET /auth/me` - Get current user details
+- `POST /auth/logout` - Logout current session
+- `POST /auth/logout-all` - Logout all sessions
+- `GET /auth/sessions` - Get user sessions
+
+### Users Management
+- `GET /users` - List users (with pagination and filters)
+- `GET /users/:id` - Get user by ID
+- `POST /users` - Create new user
+- `PATCH /users/:id` - Update user
+- `DELETE /users/:id` - Delete user
+- `PATCH /users/:id/activate` - Activate user
+- `PATCH /users/:id/deactivate` - Deactivate user
+
+## Role Hierarchy
+
+- **SuperAdmin**: Can manage all users and roles
+- **Admin**: Can manage Manager, Accountant, Driver, Passenger
+- **Manager**: Can view Accountant users
+- **Accountant**: Limited access
+- **Driver**: Limited access
+- **Passenger**: Limited access
+
 ## Project setup
 
 ```bash
