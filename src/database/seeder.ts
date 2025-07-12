@@ -1,30 +1,16 @@
-import { DataSource } from 'typeorm';
-import { ConfigService } from '@nestjs/config';
+import { AppDataSource } from '../config/typeorm.config';
 import { UserSeeder } from '../seeders/user.seeder';
 
 async function runSeeders() {
-  const configService = new ConfigService();
-  
-  const dataSource = new DataSource({
-    type: 'postgres',
-    host: configService.get('DATABASE_HOST') || 'localhost',
-    port: configService.get('DATABASE_PORT') || 5432,
-    username: configService.get('DATABASE_USERNAME') || 'postgres',
-    password: configService.get('DATABASE_PASSWORD') || 'password',
-    database: configService.get('DATABASE_NAME') || 'transport_system',
-    entities: [__dirname + '/../**/*.entity{.ts,.js}'],
-    synchronize: false,
-  });
-
   try {
-    await dataSource.initialize();
+    await AppDataSource.initialize();
     console.log('Database connection established');
 
     console.log('Running seeders...');
-    await UserSeeder.run(dataSource);
+    await UserSeeder.run(AppDataSource);
     console.log('Seeders completed successfully');
 
-    await dataSource.destroy();
+    await AppDataSource.destroy();
     console.log('Database connection closed');
   } catch (error) {
     console.error('Error running seeders:', error);
